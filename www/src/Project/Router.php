@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Project;
 
-class Routes implements \Framework\RoutesInterface {
-  public function get_controller_action(
+class Router implements \Framework\RouterInterface {
+  public function route(
     string $path,
     string $method
   ): \Framework\ControllerAction {

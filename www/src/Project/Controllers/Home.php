@@ -3,7 +3,7 @@ namespace Project\Controllers;
 
 class Home extends \Framework\AbstractController {
   public function index(): \Framework\Page {
-    return $this->get_controller_page_with_layout(
+    return $this->get_page(
       __FUNCTION__,
       [
         'title' => 'Home',
