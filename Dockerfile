@@ -126,6 +126,19 @@ ini_set('zend.exception_ignore_args', 0);
 ini_set('zend.exception_string_param_max_len', 15);
 EOF
 
+# install composer dependencies
+RUN apt-get update -y \
+  && apt-get install -y --no-install-recommends \
+  # composer dependencies
+  ca-certificates \
+  # cleanup
+  && apt autoremove -y \
+  && apt clean \
+  && rm -rf /var/lib/apt/lists/*
+
+# install composer
+COPY --from=composer/composer:2.2-bin /composer /usr/bin/composer
+
 # entrypoint
 ENV APP_ENVIRONMENT_MODE="DEVELOPMENT"
 COPY docker-entrypoint.sh /
