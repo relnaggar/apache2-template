@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 namespace Project;
 
-class Router implements \Framework\RouterInterface {
+use \Framework\Routing\ControllerAction;
+
+class Router implements \Framework\Routing\RouterInterface {
   public function route(
     string $path,
     string $method
-  ): \Framework\ControllerAction {
-    return new \Framework\ControllerAction(new Controllers\Home(), 'index');
+  ): ControllerAction {
+    return new ControllerAction(new Controllers\Home(), 'index');
   }
 }

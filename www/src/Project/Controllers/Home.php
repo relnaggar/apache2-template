@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
 namespace Project\Controllers;
 
-class Home extends \Framework\AbstractController {
-  public function index(): \Framework\Page {
-    return $this->get_page(
+use \Framework\Views\Page;
+
+class Home extends \Framework\Controllers\AbstractController {
+  public function index(): Page {
+    return $this->getPage(
       __FUNCTION__,
       [
         'title' => 'Home',
