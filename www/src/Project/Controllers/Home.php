@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 namespace Project\Controllers;
 
+use \Framework\Controllers\AbstractController;
 use \Framework\Views\Page;
 
-class Home extends \Framework\Controllers\AbstractController {
+class Home extends AbstractController {
   public function index(): Page {
     return $this->getPage(
       __FUNCTION__,
