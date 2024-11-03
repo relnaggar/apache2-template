@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-// require_once '/vendor/autoload.php'; // composer
+require_once '/vendor/autoload.php'; // composer
 require_once '../src/Framework/autoload.php'; // framework
 
 // use Framework\Config;
