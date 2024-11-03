@@ -3,7 +3,7 @@ namespace Project;
 
 use \Framework\Routing\ControllerAction;
 
-class Router implements \Framework\Routing\RouterInterface {
+class App implements \Framework\AppInterface {
   public function route(
     string $path,
     string $method
