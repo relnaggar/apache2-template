@@ -9,6 +9,6 @@ class App extends AbstractApp {
     string $path,
     string $method
   ): ControllerAction {
-    return new ControllerAction(new Controllers\Home(), 'index');
+    return new ControllerAction(Controllers\Home::class, 'index');
   }
 }
