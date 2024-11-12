@@ -1,15 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Framework\Controllers;
 
-use Framework\Decorators\DecoratorInterface;
-use Framework\Config;
-use Framework\Views\Page;
-use Framework\Views\TemplateEngine;
+use Framework\{
+  Decorators\DecoratorInterface,
+  Config,
+  Views\Page,
+  Data\SectionInterface,
+  Views\TemplateEngine,
+};
 
-abstract class AbstractController {
+abstract class AbstractController
+{
   private array $decorators;
 
-  public function __construct(array $decorators=[]) {
+  public function __construct(array $decorators = [])
+  {
     $this->decorators = $decorators;
     foreach ($this->decorators as $decorator) {
       if (!$decorator instanceof DecoratorInterface) {
@@ -25,7 +33,8 @@ abstract class AbstractController {
    *
    * @return string The name of the controller class.
    */
-  public function getControllerName(): string {
+  public function getControllerName(): string
+  {
     return (new \ReflectionClass($this))->getShortName();
   }
 
@@ -37,7 +46,8 @@ abstract class AbstractController {
    *   extension.
    * @return string The full path to the template file.
    */
-  public function getFullTemplateFilePath($relativeTemplatePath): string {
+  public function getFullTemplateFilePath($relativeTemplatePath): string
+  {
     $config = Config::getInstance();
     $sourceDirectory = $config->get('sourceDirectory');
     $templateRootDirectory = $config->get('templateRootDirectory');
@@ -70,31 +80,39 @@ abstract class AbstractController {
    * @param string $layoutTemplatePath The path to the layout template file,
    *   relative to the configured template root directory. Given without the
    *   file extension. If empty, the configured layout template path is used.
+   * @param array $sections An array of SectionInterface instances to inject
+   *   into the template. Each section will have its HTML content loaded from
+   *   the template file specified by the SectionInterface implementation.
    * @return Page A new Page instance with the HTML content loaded from the
    *   layout file, the body content injected, and the specified variables
    *   injected.
    */
   public function getPage(
-    string $bodyTemplatePath='',
-    array $templateVars=[],
-    string $layoutTemplatePath='',
-    array $sections=[]
+    string $bodyTemplatePath = '',
+    array $templateVars = [],
+    string $layoutTemplatePath = '',
+    array $sections = [],
   ): Page {
     $templateVars = $this->applyDecorators($templateVars);
 
-    foreach ($sections as $sectionId => &$section) {
-      $section['html'] =
+    $controllerName = $this->getControllerName();
+    foreach ($sections as $section) {
+      if (!$section instanceof SectionInterface) {
+        throw new \Error('All sections must implement the SectionInterface.');
+      }
+      $section->setHtmlContent(
         TemplateEngine::loadTemplate(
-          "{$section['templateDirectory']}/$sectionId",
-          $templateVars
-        );
+          $section->getTemplatePath($controllerName),
+          $templateVars,
+        )
+      );
     }
     if (!empty($sections)) {
       $templateVars['sections'] = $sections;
     }
 
     return Page::withLayout(
-      "{$this->getControllerName()}/$bodyTemplatePath",
+      "$controllerName/$bodyTemplatePath",
       $templateVars,
       $layoutTemplatePath
     );
@@ -105,12 +123,14 @@ abstract class AbstractController {
    *
    * @param string $path The path to redirect the user to.
    */
-  public function redirect(string $path): void {
+  public function redirect(string $path): void
+  {
     header('Location: ' . $path);
     exit();
   }
 
-  private function applyDecorators(array $templateVars): array {
+  private function applyDecorators(array $templateVars): array
+  {
     foreach ($this->decorators as $decorator) {
       $newTemplateVars = $decorator->getNewTemplateVars($templateVars);
       foreach ($newTemplateVars as $key => $value) {
