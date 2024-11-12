@@ -20,11 +20,11 @@
       as="font"
       type="font/woff2"
       crossorigin="anonymous"
-    >    
+    >
   </head>
   <body>
     <?= $bodyContent ?>
-    
+
     <script type="module" src="/js/main.js" defer></script>
   </body>
 </html>
