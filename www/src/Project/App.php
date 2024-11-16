@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Project;
 
-use \Framework\AbstractApp;
-use \Framework\Routing\ControllerAction;
+use \Relnaggar\Veloz\AbstractApp;
+use \Relnaggar\Veloz\Routing\ControllerAction;
 
 class App extends AbstractApp {
   public function route(

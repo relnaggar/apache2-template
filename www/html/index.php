@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 require_once '/vendor/autoload.php'; // composer
-require_once '../src/Framework/autoload.php'; // framework
+require_once '../src/autoload.php'; // for Project
 
-// use Framework\Config;
-// set config here e.g.
-// Config::getInstance()->set('templateRootDirectory', 'templates');
+use Relnaggar\Veloz\Config;
+use Project\App;
 
-$app = new Project\App();
+Config::getInstance()->set('sourceDirectory', __DIR__ . '/../src/');
+$app = new App();
 $app->run();
