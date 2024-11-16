@@ -1,11 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace Project\Controllers;
 
-use \Relnaggar\Veloz\Controllers\AbstractController;
-use \Relnaggar\Veloz\Views\Page;
+use Relnaggar\Veloz\{
+  Controllers\AbstractController,
+  Views\Page,
+};
 
-class Home extends AbstractController {
-  public function index(): Page {
+class Home extends AbstractController
+{
+  public function index(): Page
+  {
     return $this->getPage(
       __FUNCTION__,
       [
