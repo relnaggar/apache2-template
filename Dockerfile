@@ -126,10 +126,9 @@ ini_set('zend.exception_ignore_args', 0);
 ini_set('zend.exception_string_param_max_len', 15);
 EOF
 
-# install composer dependencies
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends \
-  # composer dependencies
+  # install composer dependencies
   ca-certificates \
   # cleanup
   && apt autoremove -y \
@@ -138,6 +137,19 @@ RUN apt-get update -y \
 
 # install composer
 COPY --from=composer/composer:2.2-bin /composer /usr/bin/composer
+
+RUN apt-get update -y \
+  && apt-get install -y --no-install-recommends \
+  # install sqlite3 for php
+  php-sqlite3 \
+  # cleanup
+  && apt autoremove -y \
+  && apt clean \
+  && rm -rf /var/lib/apt/lists/*
+
+# database setup
+RUN mkdir /var/db \
+  && chown -R apache2:apache2 /var/db
 
 # entrypoint
 ENV APP_ENVIRONMENT_MODE="DEVELOPMENT"
@@ -150,4 +162,4 @@ CMD ["apache2"]
 EXPOSE 80 443
 
 # volumes
-VOLUME ["/var/www", "/etc/apache2", "/etc/php"]
+VOLUME ["/var/www", "/etc/apache2", "/etc/php", "/var/db"]
