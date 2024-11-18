@@ -7,7 +7,7 @@
 
     <title>Hello World</title>
 
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/styles.css">
     <link
       rel="preload"
@@ -38,6 +38,6 @@
         <?php endif; ?>
       </p>
     </div>
-    <script type="module" src="/js/main.js" defer></script>
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>
