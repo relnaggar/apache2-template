@@ -52,7 +52,7 @@ docker compose run -d app tail -f /dev/null
 If you want to view the default apache configuration files:
 
 ```bash
-script/get-default-apache-config
+script/get-default-apache-config.sh
 ```
 
 If you need to make changes to the `Dockerfile` or `docker-compose.yml` files, you will need to rebuild the Docker image:
