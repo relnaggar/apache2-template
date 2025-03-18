@@ -54,7 +54,7 @@ docker compose run -d app tail -f /dev/null
 If you want to view the default apache configuration files:
 
 ```bash
-script/get-default-apache-config
+script/get-default-apache-config.sh
 ```
 
 Changes to the following files require rebuilding with `docker compose build`:
